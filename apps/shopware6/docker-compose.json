@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json",
+  "services": [
+    {
+      "name": "shopware6",
+      "image": "dockware/dev:latest",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/shopware",
+          "containerPath": "/var/www/html"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/shopware/custom",
+          "containerPath": "/var/www/html/custom"
+        }
+      ],
+      "ports": [
+        {
+          "containerPort": 80,
+          "hostPort": "${APP_PORT}"
+        }
+      ],
+      "environment": [
+        {
+          "name": "XDEBUG_ENABLED",
+          "value": "0"
+        },
+        {
+          "name": "PHP_VERSION",
+          "value": "8.2"
+        },
+        {
+          "name": "COMPOSER_VERSION",
+          "value": "2"
+        }
+      ],
+      "depends_on": ["shopware6-db"]
+    },
+    {
+      "name": "shopware6-db",
+      "image": "mysql:8.0",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/mysql",
+          "containerPath": "/var/lib/mysql"
+        }
+      ],
+      "environment": [
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "${MYSQL_ROOT_PASSWORD}"
+        },
+        {
+          "name": "MYSQL_DATABASE",
+          "value": "${MYSQL_DATABASE}"
+        },
+        {
+          "name": "MYSQL_USER",
+          "value": "${MYSQL_USER}"
+        },
+        {
+          "name": "MYSQL_PASSWORD",
+          "value": "${MYSQL_PASSWORD}"
+        }
+      ]
+    }
+  ]
+}
+

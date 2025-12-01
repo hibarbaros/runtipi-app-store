@@ -1,0 +1,61 @@
+version: "3.7"
+services:
+  shopware6:
+    image: dockware/dev:latest
+    container_name: shopware6
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:80
+    environment:
+      - XDEBUG_ENABLED=0
+      - PHP_VERSION=8.2
+      - COMPOSER_VERSION=2
+    volumes:
+      - ${APP_DATA_DIR}/shopware:/var/www/html
+      - ${APP_DATA_DIR}/shopware/custom:/var/www/html/custom
+    depends_on:
+      - shopware6-db
+    labels:
+      traefik.enable: true
+      traefik.http.middlewares.shopware6-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.shopware6.loadbalancer.server.port: 80
+      traefik.http.routers.shopware6-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.shopware6-insecure.entrypoints: web
+      traefik.http.routers.shopware6-insecure.service: shopware6
+      traefik.http.routers.shopware6-insecure.middlewares: shopware6-web-redirect
+      traefik.http.routers.shopware6.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.shopware6.entrypoints: websecure
+      traefik.http.routers.shopware6.service: shopware6
+      traefik.http.routers.shopware6.tls.certresolver: myresolver
+      traefik.http.routers.shopware6-local-insecure.rule: Host(`shopware6.${LOCAL_DOMAIN}`)
+      traefik.http.routers.shopware6-local-insecure.entrypoints: web
+      traefik.http.routers.shopware6-local-insecure.service: shopware6
+      traefik.http.routers.shopware6-local-insecure.middlewares: shopware6-web-redirect
+      traefik.http.routers.shopware6-local.rule: Host(`shopware6.${LOCAL_DOMAIN}`)
+      traefik.http.routers.shopware6-local.entrypoints: websecure
+      traefik.http.routers.shopware6-local.service: shopware6
+      traefik.http.routers.shopware6-local.tls: true
+      runtipi.managed: true
+
+  shopware6-db:
+    image: mysql:8.0
+    container_name: shopware6-db
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-shopware}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-shopware}
+      MYSQL_USER: ${MYSQL_USER:-shopware}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-shopware}
+    volumes:
+      - ${APP_DATA_DIR}/mysql:/var/lib/mysql
+    labels:
+      runtipi.managed: true
+
+networks:
+  tipi_main_network:
+    external: true
+

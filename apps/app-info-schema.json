@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["id", "name", "available", "tipi_version"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the app"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the app"
+    },
+    "available": {
+      "type": "boolean",
+      "description": "Whether the app is available for installation"
+    },
+    "tipi_version": {
+      "type": "number",
+      "description": "Runtipi version this app is compatible with"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "Shopware 6",
+  "available": true,
+  "exposable": true,
+  "tipi_version": 52,
+  "version": "6.7.4.2",
+  "port": 8105,
+  "id": "shopware6",
+  "categories": ["ecommerce", "business"],
+  "description": "Shopware 6 is an open source e-commerce platform based on Symfony Framework and Vue.js. It is a modern, flexible and scalable solution for online stores.",
+  "short_desc": "Modern open source e-Commerce platform",
+  "author": "Shopware AG",
+  "source": "https://github.com/shopware/shopware",
+  "requirements": {
+    "ports": [80, 3306]
+  },
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Database Root Password",
+      "required": true,
+      "env_variable": "MYSQL_ROOT_PASSWORD",
+      "default": "shopware"
+    },
+    {
+      "type": "text",
+      "label": "Database Name",
+      "required": true,
+      "env_variable": "MYSQL_DATABASE",
+      "default": "shopware"
+    },
+    {
+      "type": "text",
+      "label": "Database User",
+      "required": true,
+      "env_variable": "MYSQL_USER",
+      "default": "shopware"
+    },
+    {
+      "type": "text",
+      "label": "Database Password",
+      "required": true,
+      "env_variable": "MYSQL_PASSWORD",
+      "default": "shopware"
+    }
+  ],
+  "supported_architectures": ["amd64"],
+  "dynamic_config": true,
+  "created_at": 1733058000000,
+  "updated_at": 1733058000000,
+  "min_tipi_version": "4.5.0"
+}
+
