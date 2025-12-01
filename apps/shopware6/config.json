@@ -7,7 +7,7 @@
   "version": "6.7.4.2",
   "port": 8105,
   "id": "shopware6",
-  "categories": ["ecommerce", "business"],
+  "categories": ["featured", "utilities"],
   "description": "Shopware 6 is an open source e-commerce platform based on Symfony Framework and Vue.js. It is a modern, flexible and scalable solution for online stores.",
   "short_desc": "Modern open source e-Commerce platform",
   "author": "Shopware AG",
